@@ -1,0 +1,1015 @@
+<?xml version='1.0'?>
+<robot name='ateks'>
+  
+  <!-- Base Footprint -->
+    <link name="base_footprint"/> 
+    <joint name="base_footprint_joint" type="fixed">     	
+	<parent link="base_footprint"/>
+     	<child link="base_link"/>	
+    </joint> 
+    
+    
+   <!-- Base_Link -->
+   
+    <link name='base_link'>
+    	<inertial>
+      	  <mass value="83.7"/>
+      	  <origin xyz="0 0 0"/>
+      	  <inertia ixx="10.0" ixy="10.0" ixz="10.0" iyy="10.0" iyz="10.0" izz="100.0" />
+    	</inertial>
+    
+    	<visual>
+      	  <origin xyz="0.61 0.33 0.1" rpy="0 0.4 3.14"/>
+      	    <geometry>
+        	<!--<box size ="0.33 0.42 0.05"/>-->
+        	    <mesh filename="package://ateks_description/meshes/ateks2.stl" scale="0.001 0.001 0.001"/>
+      	    </geometry>
+        <!-- <origin xyz="0 0 0.2" rpy="0 0 0" /> -->
+        <!-- <geometry> -->
+	<!--   <box size="1.1 0.5 0.1"/> -->
+        <!-- </geometry> -->
+    	</visual>
+    	
+    	<collision>
+      	   <origin rpy="0 0 0" xyz="0 0 0.2"/>
+      	    <geometry>
+        	    <box size ="1.08 0.6 0.1"/>
+      	    </geometry>
+    	</collision> 
+    	  
+     </link>
+     
+     <gazebo reference="base_link">
+    	<material value="Gazebo/DarkGrey "/>
+     </gazebo>
+     
+  <!-- Caster Wheels -->
+    <link name='left_caster_wheel'>
+    	<collision>
+      	   <origin rpy="0 0 0" xyz="0.33884 -0.28539 0.075"/>
+      	    <geometry>
+      	        <sphere radius ="0.075"/>
+      	    </geometry>
+    	</collision>   
+     </link>
+     
+     <joint name="left_caster_joint" type="fixed">
+	      <origin xyz="0 0 0" rpy="0 0 0"/>
+	      <parent link="base_link"/>
+	      <child link="left_caster_wheel"/>
+	      <axis xyz="0 1 0"/>
+     </joint> 
+
+    <link name='right_caster_wheel'>
+    	<collision>
+      	   <origin rpy="0 0 0" xyz="0.33884 0.28539 0.075"/>
+      	    <geometry>
+      	        <sphere radius ="0.075"/>
+      	    </geometry>
+    	</collision>   
+     </link>
+     
+     <joint name="right_caster_joint" type="fixed">
+	      <origin xyz="0 0 0" rpy="0 0 0"/>
+	      <parent link="base_link"/>
+	      <child link="right_caster_wheel"/>
+	      <axis xyz="0 1 0"/>
+     </joint>   
+     
+    <gazebo reference="left_caster_wheel">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+    </gazebo>
+    <gazebo reference="right_caster_wheel">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+    </gazebo>
+    
+     
+  <!-- Back Wheels -->
+  
+    <link name='right_wheel'>
+    	<inertial>
+      	  <mass value="1.0"/>
+      	  <origin xyz="0.0 0.0 0.0"/>
+	  <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0" />
+    	</inertial>
+    
+    	<collision>
+      	   <origin rpy="1.57 0 0" xyz="0.0 0.0 0.0"/>
+      	    <geometry>
+      	        <cylinder radius="0.1925" length="0.05"/>
+      	    </geometry>
+    	</collision>   
+     </link>
+     
+     <joint name="right_wheel_joint" type="continuous">
+    	<axis xyz="0 1 0"/>
+    	<origin xyz="-0.31 0.325 0.1925" rpy="0 0 0"/>
+    	<parent link="base_link"/>
+    	<child link="right_wheel"/>
+	<dynamics damping="0.7"/>
+     </joint>
+     
+    <link name='left_wheel'>
+    	<inertial>
+      	  <mass value="1.0"/>
+      	  <origin xyz="0.0 0.0 0.0"/>
+	  <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0" />
+    	</inertial>
+    
+    	<collision>
+      	   <origin rpy="1.57 0 0" xyz="0.0 0.0 0.0"/>
+      	    <geometry>
+      	        <cylinder radius="0.1925" length="0.05"/>
+      	    </geometry>
+    	</collision>   
+     </link>
+     
+     <joint name="left_wheel_joint" type="continuous">
+    	<axis xyz="0 1 0"/>
+    	<origin xyz="-0.31 -0.325 0.1925" rpy="0 0 0"/>
+    	<parent link="base_link"/>
+    	<child link="left_wheel"/>
+	<dynamics damping="0.7"/>
+     </joint>
+     
+
+
+<!-- Camera Port -->
+    <link name="kinect_link">
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <mass value="1.0" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+        <mesh filename="package://ateks_description/meshes/kinect.dae" scale="1 1 1"/>
+      	  <!-- <sphere radius=".1"/> -->
+        </geometry>
+		</visual>
+	</link>
+
+    <link name="kinect_dummy">
+       <pose>0 0 0 0 0 0</pose>
+    </link>
+	
+    <joint name="kinect_joint_dummy" type="fixed">
+      <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+      <parent link="kinect_link"/>
+      <child link="kinect_dummy"/>
+      <axis xyz="0 1 0"/>
+    </joint>	
+    
+    <link name="kinect_dummy2">
+      <pose>0 0 0 0 0 0</pose>
+	</link>
+	
+    <joint name="kinect_joint_dummy2" type="fixed">
+      <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+      <parent link="kinect_link2"/>
+      <child link="kinect_dummy2"/>
+      <axis xyz="0 1 0"/>
+    </joint>	
+		
+    <link name="kinect_link2">
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <mass value="1.0" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+        <mesh filename="package://ateks_description/meshes/kinect.dae" scale="1 1 1"/>
+      	  <!-- <sphere radius=".1"/> -->
+        </geometry>
+	</visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+      	  <sphere radius=".1"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="kinect_joint" type="continuous">
+      <origin xyz="-0.45 -0.2 1.54" rpy="0 0.38 -0.349"/> <!--0.38 -0.349-->
+      <parent link="base_link"/>
+      <child link="kinect_link"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+
+    <joint name="kinect_joint2" type="fixed">
+      <origin xyz="-0.45 -0.2 1.68" rpy="0 0.38 0.698"/>  <!--0 0.38 0.698-->
+      <parent link="base_link"/>
+      <child link="kinect_link2"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+    
+<!-- Sonar Links -->
+
+  <link name="ult1">
+    <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	   <box size="0.001 0.001 0.001"/>
+	</geometry>
+    </visual> 
+    <inertial>
+	<mass value="1e-5" />
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertia ixx="1e-6" ixy="0"    ixz="0" 
+		 	    iyy="1e-6" iyz="0" 
+				       izz="1e-6" />
+    </inertial>
+   </link>
+
+   <joint name="ult1_joint" type="fixed">
+	<axis xyz="0 0 0" />
+	<origin xyz="0.385 -0.255 0.395" rpy="0 0 0"/>
+	<parent link="base_link"/>
+	<child link="ult1"/>
+   </joint>
+    
+  <link name="ult2">
+    <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	   <box size="0.001 0.001 0.001"/>
+	</geometry>
+    </visual> 
+    <inertial>
+	<mass value="1e-5" />
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertia ixx="1e-6" ixy="0"    ixz="0" 
+		 	    iyy="1e-6" iyz="0" 
+				       izz="1e-6" />
+    </inertial>
+   </link>
+
+   <joint name="ult2_joint" type="fixed">
+	<axis xyz="0 0 0" />
+	<origin xyz="0.555 -0.105 0.23" rpy="0 0 0"/>
+	<parent link="base_link"/>
+	<child link="ult2"/>
+   </joint>
+    
+  <link name="ult3">
+    <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	   <box size="0.001 0.001 0.001"/>
+	</geometry>
+    </visual> 
+    <inertial>
+	<mass value="1e-5" />
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertia ixx="1e-6" ixy="0"    ixz="0" 
+		 	    iyy="1e-6" iyz="0" 
+				       izz="1e-6" />
+    </inertial>
+   </link>
+
+   <joint name="ult3_joint" type="fixed">
+	<axis xyz="0 0 0" />
+	<origin xyz="0.555 0.105 0.23" rpy="0 0 0"/>
+	<parent link="base_link"/>
+	<child link="ult3"/>
+   </joint>
+   
+  <link name="ult4">
+    <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	   <box size="0.001 0.001 0.001"/>
+	</geometry>
+    </visual> 
+    <inertial>
+	<mass value="1e-5" />
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertia ixx="1e-6" ixy="0"    ixz="0" 
+		 	    iyy="1e-6" iyz="0" 
+				       izz="1e-6" />
+    </inertial>
+   </link>
+
+   <joint name="ult4_joint" type="fixed">
+	<axis xyz="0 0 0" />
+	<origin xyz="0.385 0.255 0.395" rpy="0 0 0"/>
+	<parent link="base_link"/>
+	<child link="ult4"/>
+   </joint>
+   
+  <link name="ult5">
+    <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	   <box size="0.001 0.001 0.001"/>
+	</geometry>
+    </visual> 
+    <inertial>
+	<mass value="1e-5" />
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertia ixx="1e-6" ixy="0"    ixz="0" 
+		 	    iyy="1e-6" iyz="0" 
+				       izz="1e-6" />
+    </inertial>
+   </link>
+
+   <joint name="ult5_joint" type="fixed">
+	<axis xyz="0 0 0" />
+	<origin xyz="0.145 0.25 0.35" rpy="0 0 1.57"/>
+	<parent link="base_link"/>
+	<child link="ult5"/>
+   </joint>
+   
+  <link name="ult6">
+    <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	   <box size="0.001 0.001 0.001"/>
+	</geometry>
+    </visual> 
+    <inertial>
+	<mass value="1e-5" />
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertia ixx="1e-6" ixy="0"    ixz="0" 
+		 	    iyy="1e-6" iyz="0" 
+				       izz="1e-6" />
+    </inertial>
+   </link>
+
+   <joint name="ult6_joint" type="fixed">
+	<axis xyz="0 0 0" />
+	<origin xyz="-0.215 0.25 0.39" rpy="0 0 1.57"/>
+	<parent link="base_link"/>
+	<child link="ult6"/>
+   </joint>
+   
+  <link name="ult7">
+    <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	   <box size="0.001 0.001 0.001"/>
+	</geometry>
+    </visual> 
+    <inertial>
+	<mass value="1e-5" />
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertia ixx="1e-6" ixy="0"    ixz="0" 
+		 	    iyy="1e-6" iyz="0" 
+				       izz="1e-6" />
+    </inertial>
+   </link>
+
+   <joint name="ult7_joint" type="fixed">
+	<axis xyz="0 0 0" />
+	<origin xyz="-0.555 0.20 0.26" rpy="0 0 3.14"/>
+	<parent link="base_link"/>
+	<child link="ult7"/>
+   </joint>
+   
+  <link name="ult8">
+    <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	   <box size="0.001 0.001 0.001"/>
+	</geometry>
+    </visual> 
+    <inertial>
+	<mass value="1e-5" />
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertia ixx="1e-6" ixy="0"    ixz="0" 
+		 	    iyy="1e-6" iyz="0" 
+				       izz="1e-6" />
+    </inertial>
+   </link>
+
+   <joint name="ult8_joint" type="fixed">
+	<axis xyz="0 0 0" />
+	<origin xyz="-0.555 -0.20 0.26" rpy="0 0 3.14"/>
+	<parent link="base_link"/>
+	<child link="ult8"/>
+   </joint>
+   
+  <link name="ult9">
+    <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	   <box size="0.001 0.001 0.001"/>
+	</geometry>
+    </visual> 
+    <inertial>
+	<mass value="1e-5" />
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertia ixx="1e-6" ixy="0"    ixz="0" 
+		 	    iyy="1e-6" iyz="0" 
+				       izz="1e-6" />
+    </inertial>
+   </link>
+
+   <joint name="ult9_joint" type="fixed">
+	<axis xyz="0 0 0" />
+	<origin xyz="-0.215 -0.25 0.39" rpy="0 0 -1.57"/>
+	<parent link="base_link"/>
+	<child link="ult9"/>
+   </joint>
+   
+  <link name="ult10">
+    <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	   <box size="0.001 0.001 0.001"/>
+	</geometry>
+    </visual> 
+    <inertial>
+	<mass value="1e-5" />
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertia ixx="1e-6" ixy="0"    ixz="0" 
+		 	    iyy="1e-6" iyz="0" 
+				       izz="1e-6" />
+    </inertial>
+   </link>
+
+   <joint name="ult10_joint" type="fixed">
+	<axis xyz="0 0 0" />
+	<origin xyz="0.145 -0.25 0.39" rpy="0 0 -1.57"/>
+	<parent link="base_link"/>
+	<child link="ult10"/>
+   </joint>
+   
+ <!-- <link name="ult11">
+    <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	   <box size="0.001 0.001 0.001"/>
+	</geometry>
+    </visual> 
+    <inertial>
+	<mass value="1e-5" />
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertia ixx="1e-6" ixy="0"    ixz="0" 
+		 	    iyy="1e-6" iyz="0" 
+				       izz="1e-6" />
+    </inertial>
+   </link>
+
+   <joint name="ult11_joint" type="fixed">
+	<axis xyz="0 0 0" />
+	<origin xyz="2.02625 -2.21559 0.45" rpy="0 0 -1.57"/>
+	<parent link="base_link"/>
+	<child link="ult11"/>
+   </joint>
+   
+  <link name="ult12">
+    <visual>
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<geometry>
+	   <box size="0.001 0.001 0.001"/>
+	</geometry>
+    </visual> 
+    <inertial>
+	<mass value="1e-5" />
+	<origin xyz="0 0 0" rpy="0 0 0"/>
+	<inertia ixx="1e-6" ixy="0"    ixz="0" 
+		 	    iyy="1e-6" iyz="0" 
+				       izz="1e-6" />
+    </inertial>
+   </link>
+
+   <joint name="ult12_joint" type="fixed">
+	<axis xyz="0 0 0" />
+	<origin xyz="2.44625 -2.21559 0.45" rpy="0 0 -1.57"/>
+	<parent link="base_link"/>
+	<child link="ult12"/>
+   </joint>-->
+    
+<!-- Sonars Plugins -->
+
+    <gazebo reference="ult1">
+      <sensor type="ray" name="ult1">
+	<pose>0 0 0 0 0 0</pose>
+	<update_rate>5</update_rate>
+	<visualize>true</visualize>
+	<ray>
+          <scan>
+            <horizontal>
+      	      <samples>320</samples>
+      	      <resolution>1</resolution>
+      	      <min_angle>-0.9249</min_angle>
+      	      <max_angle>0.2969</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>5</max>
+            <resolution>0.01</resolution>
+          </range>
+	</ray>
+	
+	<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+	  <gaussianNoise>0.005</gaussianNoise>
+	  <always_on>true</always_on>
+          <topicName>ult1</topicName>
+          <frameName>ult1</frameName>
+	  <radiation>ultrasound</radiation>
+	  <fov>0.05</fov>  
+	</plugin> 
+      </sensor>
+    </gazebo>
+    
+    <gazebo reference="ult2">
+      <sensor type="ray" name="ult2">
+	<pose>0 0 0 0 0 0</pose>
+	<update_rate>5</update_rate>
+	<visualize>true</visualize>
+	<ray>
+          <scan>
+            <horizontal>
+      	      <samples>320</samples>
+      	      <resolution>1</resolution>
+      	      <min_angle>-0.6109</min_angle>
+      	      <max_angle>0.6109</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>5</max>
+            <resolution>0.01</resolution>
+          </range>
+	</ray>
+	
+	<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+	  <gaussianNoise>0.005</gaussianNoise>
+	  <always_on>true</always_on>
+          <topicName>ult2</topicName>
+          <frameName>ult2</frameName>
+	  <radiation>ultrasound</radiation>
+	  <fov>0.05</fov>  
+	</plugin> 
+      </sensor>
+    </gazebo>
+    
+    <gazebo reference="ult3">
+      <sensor type="ray" name="ult3">
+	<pose>0 0 0 0 0 0</pose>
+	<update_rate>5</update_rate>
+	<visualize>true</visualize>
+	<ray>
+          <scan>
+            <horizontal>
+      	      <samples>320</samples>
+      	      <resolution>1</resolution>
+      	      <min_angle>-0.6109</min_angle>
+      	      <max_angle>0.6109</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>5</max>
+            <resolution>0.01</resolution>
+          </range>
+	</ray>
+	
+	<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+	  <gaussianNoise>0.005</gaussianNoise>
+	  <always_on>true</always_on>
+          <topicName>ult3</topicName>
+          <frameName>ult3</frameName>
+	  <radiation>ultrasound</radiation>
+	  <fov>0.05</fov>  
+	</plugin> 
+      </sensor>
+    </gazebo>
+    
+    <gazebo reference="ult4">
+      <sensor type="ray" name="ult4">
+	<pose>0 0 0 0 0 0</pose>
+	<update_rate>5</update_rate>
+	<visualize>true</visualize>
+	<ray>
+          <scan>
+            <horizontal>
+      	      <samples>320</samples>
+      	      <resolution>1</resolution>
+      	      <min_angle>-0.2969</min_angle>
+      	      <max_angle>0.9249</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>5</max>
+            <resolution>0.01</resolution>
+          </range>
+	</ray>
+	
+	<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+	  <gaussianNoise>0.005</gaussianNoise>
+	  <always_on>true</always_on>
+          <topicName>ult4</topicName>
+          <frameName>ult4</frameName>
+	  <radiation>ultrasound</radiation>
+	  <fov>0.05</fov>  
+	</plugin> 
+      </sensor>
+    </gazebo>
+    
+    <gazebo reference="ult5">
+      <sensor type="ray" name="ult5">
+	<pose>0 0 0 0 0 0</pose>
+	<update_rate>5</update_rate>
+	<visualize>true</visualize>
+	<ray>
+          <scan>
+            <horizontal>
+      	      <samples>320</samples>
+      	      <resolution>1</resolution>
+      	      <min_angle>-0.6109</min_angle>
+      	      <max_angle>0.6109</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>5</max>
+            <resolution>0.01</resolution>
+          </range>
+	</ray>
+	
+	<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+	  <gaussianNoise>0.005</gaussianNoise>
+	  <always_on>true</always_on>
+          <topicName>ult5</topicName>
+          <frameName>ult5</frameName>
+	  <radiation>ultrasound</radiation>
+	  <fov>0.05</fov>  
+	</plugin> 
+      </sensor>
+    </gazebo>
+    
+    <gazebo reference="ult6">
+      <sensor type="ray" name="ult6">
+	<pose>0 0 0 0 0 0</pose>
+	<update_rate>5</update_rate>
+	<visualize>true</visualize>
+	<ray>
+          <scan>
+            <horizontal>
+      	      <samples>320</samples>
+      	      <resolution>1</resolution>
+      	      <min_angle>-0.6109</min_angle>
+      	      <max_angle>0.6109</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>5</max>
+            <resolution>0.01</resolution>
+          </range>
+	</ray>
+	
+	<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+	  <gaussianNoise>0.005</gaussianNoise>
+	  <always_on>true</always_on>
+          <topicName>ult6</topicName>
+          <frameName>ult6</frameName>
+	  <radiation>ultrasound</radiation>
+	  <fov>0.05</fov>  
+	</plugin> 
+      </sensor>
+    </gazebo>
+    
+    <gazebo reference="ult7">
+      <sensor type="ray" name="ult7">
+	<pose>0 0 0 0 0 0</pose>
+	<update_rate>5</update_rate>
+	<visualize>true</visualize>
+	<ray>
+          <scan>
+            <horizontal>
+      	      <samples>320</samples>
+      	      <resolution>1</resolution>
+      	      <min_angle>-0.6109</min_angle>
+      	      <max_angle>0.6109</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>5</max>
+            <resolution>0.01</resolution>
+          </range>
+	</ray>
+	
+	<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+	  <gaussianNoise>0.005</gaussianNoise>
+	  <always_on>true</always_on>
+          <topicName>ult7</topicName>
+          <frameName>ult7</frameName>
+	  <radiation>ultrasound</radiation>
+	  <fov>0.05</fov>  
+	</plugin> 
+      </sensor>
+    </gazebo>
+    
+    <gazebo reference="ult8">
+      <sensor type="ray" name="ult8">
+	<pose>0 0 0 0 0 0</pose>
+	<update_rate>5</update_rate>
+	<visualize>true</visualize>
+	<ray>
+          <scan>
+            <horizontal>
+      	      <samples>320</samples>
+      	      <resolution>1</resolution>
+      	      <min_angle>-0.6109</min_angle>
+      	      <max_angle>0.6109</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>5</max>
+            <resolution>0.01</resolution>
+          </range>
+	</ray>
+	
+	<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+	  <gaussianNoise>0.005</gaussianNoise>
+	  <always_on>true</always_on>
+          <topicName>ult8</topicName>
+          <frameName>ult8</frameName>
+	  <radiation>ultrasound</radiation>
+	  <fov>0.05</fov>  
+	</plugin> 
+      </sensor>
+    </gazebo>
+    
+    
+    <gazebo reference="ult9">
+      <sensor type="ray" name="ult9">
+	<pose>0 0 0 0 0 0</pose>
+	<update_rate>5</update_rate>
+	<visualize>true</visualize>
+	<ray>
+          <scan>
+            <horizontal>
+      	      <samples>320</samples>
+      	      <resolution>1</resolution>
+      	      <min_angle>-0.6109</min_angle>
+      	      <max_angle>0.6109</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>5</max>
+            <resolution>0.01</resolution>
+          </range>
+	</ray>
+	
+	<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+	  <gaussianNoise>0.005</gaussianNoise>
+	  <always_on>true</always_on>
+          <topicName>ult9</topicName>
+          <frameName>ult9</frameName>
+	  <radiation>ultrasound</radiation>
+	  <fov>0.05</fov>  
+	</plugin> 
+      </sensor>
+    </gazebo>
+    
+    <gazebo reference="ult10">
+      <sensor type="ray" name="ult10">
+	<pose>0 0 0 0 0 0</pose>
+	<update_rate>5</update_rate>
+	<visualize>true</visualize>
+	<ray>
+          <scan>
+            <horizontal>
+      	      <samples>320</samples>
+      	      <resolution>1</resolution>
+      	      <min_angle>-0.6109</min_angle>
+      	      <max_angle>0.6109</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>5</max>
+            <resolution>0.01</resolution>
+          </range>
+	</ray>
+	
+	<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+	  <gaussianNoise>0.005</gaussianNoise>
+	  <always_on>true</always_on>
+          <topicName>ult10</topicName>
+          <frameName>ult10</frameName>
+	  <radiation>ultrasound</radiation>
+	  <fov>0.05</fov>  
+	</plugin> 
+      </sensor>
+    </gazebo>
+    
+    
+<!--    <gazebo reference="ult11">
+      <sensor type="ray" name="ult11">
+	<pose>0 0 0 0 0 0</pose>
+	<update_rate>5</update_rate>
+	<visualize>true</visualize>
+	<ray>
+          <scan>
+            <horizontal>
+      	      <samples>320</samples>
+      	      <resolution>1</resolution>
+      	      <min_angle>0.0</min_angle>
+      	      <max_angle>0.0</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>5</max>
+            <resolution>0.01</resolution>
+          </range>
+	</ray>
+	
+	<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+	  <gaussianNoise>0.005</gaussianNoise>
+	  <always_on>true</always_on>
+          <topicName>ult11</topicName>
+          <frameName>ult11</frameName>
+	  <radiation>ultrasound</radiation>
+	  <fov>0.05</fov>  
+	</plugin> 
+      </sensor>
+    </gazebo>
+
+    <gazebo reference="ult12">
+      <sensor type="ray" name="ult12">
+	<pose>0 0 0 0 0 0</pose>
+	<update_rate>5</update_rate>
+	<visualize>true</visualize>
+	<ray>
+          <scan>
+            <horizontal>
+      	      <samples>320</samples>
+      	      <resolution>1</resolution>
+      	      <min_angle>0.0</min_angle>
+      	      <max_angle>0.0</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>5</max>
+            <resolution>0.01</resolution>
+          </range>
+	</ray>
+	
+	<plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+	  <gaussianNoise>0.005</gaussianNoise>
+	  <always_on>true</always_on>
+          <topicName>ult12</topicName>
+          <frameName>ult12</frameName>
+	  <radiation>ultrasound</radiation>
+	  <fov>0.05</fov>  
+	</plugin> 
+      </sensor>
+    </gazebo> -->
+
+<!-- Diff Drive Plugin -->
+  <gazebo>
+    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+         <alwaysOn>true</alwaysOn>
+         <updateRate>10</updateRate>
+         <leftJoint>left_wheel_joint</leftJoint>
+         <rightJoint>right_wheel_joint</rightJoint>
+         <wheelSeparation>0.6</wheelSeparation>
+         <wheelDiameter>0.34</wheelDiameter>
+         <wheelTorque>20</wheelTorque>
+         <!--wheelAcceleration>5</wheelAcceleration-->
+         <commandTopic>cmd_vel</commandTopic>
+         <odometryTopic>odom</odometryTopic>
+         <odometryFrame>odom</odometryFrame>
+         <publishTf>1</publishTf>
+         <publishWheelJointState>true</publishWheelJointState>
+         <robotBaseFrame>base_footprint</robotBaseFrame>
+    </plugin>
+
+  </gazebo>
+     
+<!-- Joint State Publisher 
+
+     <gazebo>
+        <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+           <robotNamespace></robotNamespace>
+           <jointName>right_wheel_joint, left_wheel_joint</jointName>
+           <updateRate>10.0</updateRate>
+           <alwaysOn>true</alwaysOn>
+        </plugin>
+    </gazebo>-->
+    
+<!-- SENSOR -->
+<gazebo reference="kinect_link">
+    <sensor type="depth" name="openni_camera_camera">       
+        <always_on>1</always_on>
+        <visualize>true</visualize>             
+        <camera>
+            <horizontal_fov>1.047</horizontal_fov>  
+            <image>
+                <width>160</width>
+                <height>120</height>
+                <format>R8G8B8</format>
+            </image>
+            <depth_camera>
+
+            </depth_camera>
+            <clip>
+                <near>0.1</near>
+                <far>100</far>
+            </clip>
+        </camera>
+        <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+            <alwaysOn>true</alwaysOn>
+                <updateRate>2.0</updateRate>
+                <cameraName>camera</cameraName>
+                <frameName>kinect_dummy</frameName>                   
+                <imageTopicName>rgb/image_raw</imageTopicName>
+                <depthImageTopicName>depth/image_raw</depthImageTopicName>
+                <pointCloudTopicName>depth/points</pointCloudTopicName>
+                <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>              
+                <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>            
+                <pointCloudCutoff>0.4</pointCloudCutoff>                
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+                <CxPrime>0.0</CxPrime>
+                <Cx>0.0</Cx>
+                <Cy>0.0</Cy>
+                <focalLength>0.0</focalLength>
+            </plugin>
+    </sensor>
+</gazebo>
+
+<gazebo reference="kinect_link2">
+  <sensor type="depth" name="openni_camera_camera">       
+        <always_on>1</always_on>
+        <visualize>true</visualize>             
+        <camera>
+            <horizontal_fov>1.047</horizontal_fov>  
+            <image>
+                <width>160</width>
+                <height>120</height>
+                <format>R8G8B8</format>
+            </image>
+            <depth_camera>
+
+            </depth_camera>
+            <clip>
+                <near>0.5</near>
+                <far>5</far>
+            </clip>
+        </camera>
+        <plugin name="camera_controller2" filename="libgazebo_ros_openni_kinect.so">
+            <alwaysOn>true</alwaysOn>
+                <updateRate>2.0</updateRate>
+                <cameraName>camera2</cameraName>
+                <frameName>kinect_dummy</frameName>                   
+                <imageTopicName>rgb/image_raw</imageTopicName>
+                <depthImageTopicName>depth/image_raw</depthImageTopicName>
+                <pointCloudTopicName>depth/points</pointCloudTopicName>
+                <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>              
+                <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>            
+                <pointCloudCutoff>0.4</pointCloudCutoff>                
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+                <CxPrime>0.0</CxPrime>
+                <Cx>0.0</Cx>
+                <Cy>0.0</Cy>
+                <focalLength>0.0</focalLength>
+            </plugin>
+    </sensor>
+</gazebo>   
+
+  
+<!-- Gazebo ROS Control Plugin -->
+
+  <gazebo>
+  	<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    	<robotNamespace>ateks</robotNamespace>
+    	<robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+  	</plugin>
+  </gazebo>
+
+</robot>
+
