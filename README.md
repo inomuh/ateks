@@ -3,7 +3,7 @@ This repository includes the Ateks ROS Noetic packages.
 
 ![Image of Ateks](https://github.com/inomuh/ateks/blob/main/ateks.png)
 
-- ateks_description: It is the sub-package containing urdf files of the Ateks.
+- ateks_description: It is the sub-package containing urdf and mesh files of the Ateks.
 - ateks_simulation: It is a sub-package containing the package and launch files required for the simulation of the Ateks.
 
 Gazebo Launching:
