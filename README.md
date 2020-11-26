@@ -25,7 +25,7 @@ Requirements:
 - In order for the "joint_state_publisher" to work, "joint_state_publisher_gui" package must be downloaded to your computer.
 
         $ sudo apt update
-        $ sudo apt install ros-melodic-joint-state-publisher-gui
+        $ sudo apt install ros-noetic-joint-state-publisher-gui
         
 -------------------------------------------------------------------------------
 Changelog:
