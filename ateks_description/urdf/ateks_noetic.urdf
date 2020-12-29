@@ -105,7 +105,7 @@
      
      <joint name="right_wheel_joint" type="continuous">
     	<axis xyz="0 1 0"/>
-    	<origin xyz="-0.31 0.325 0.1925" rpy="0 0 0"/>
+    	<origin xyz="-0.31 0.355 0.1925" rpy="0 0 0"/>
     	<parent link="base_link"/>
     	<child link="right_wheel"/>
 	<dynamics damping="0.7"/>
@@ -128,7 +128,7 @@
      
      <joint name="left_wheel_joint" type="continuous">
     	<axis xyz="0 1 0"/>
-    	<origin xyz="-0.31 -0.325 0.1925" rpy="0 0 0"/>
+    	<origin xyz="-0.31 -0.355 0.1925" rpy="0 0 0"/>
     	<parent link="base_link"/>
     	<child link="left_wheel"/>
 	<dynamics damping="0.7"/>
@@ -498,7 +498,7 @@
       <sensor type="ray" name="ult1">
 	<pose>0 0 0 0 0 0</pose>
 	<update_rate>5</update_rate>
-	<visualize>true</visualize>
+	<visualize>false</visualize>
 	<ray>
           <scan>
             <horizontal>
@@ -530,7 +530,7 @@
       <sensor type="ray" name="ult2">
 	<pose>0 0 0 0 0 0</pose>
 	<update_rate>5</update_rate>
-	<visualize>true</visualize>
+	<visualize>false</visualize>
 	<ray>
           <scan>
             <horizontal>
@@ -562,7 +562,7 @@
       <sensor type="ray" name="ult3">
 	<pose>0 0 0 0 0 0</pose>
 	<update_rate>5</update_rate>
-	<visualize>true</visualize>
+	<visualize>false</visualize>
 	<ray>
           <scan>
             <horizontal>
@@ -594,7 +594,7 @@
       <sensor type="ray" name="ult4">
 	<pose>0 0 0 0 0 0</pose>
 	<update_rate>5</update_rate>
-	<visualize>true</visualize>
+	<visualize>false</visualize>
 	<ray>
           <scan>
             <horizontal>
@@ -626,7 +626,7 @@
       <sensor type="ray" name="ult5">
 	<pose>0 0 0 0 0 0</pose>
 	<update_rate>5</update_rate>
-	<visualize>true</visualize>
+	<visualize>false</visualize>
 	<ray>
           <scan>
             <horizontal>
@@ -658,7 +658,7 @@
       <sensor type="ray" name="ult6">
 	<pose>0 0 0 0 0 0</pose>
 	<update_rate>5</update_rate>
-	<visualize>true</visualize>
+	<visualize>false</visualize>
 	<ray>
           <scan>
             <horizontal>
@@ -690,7 +690,7 @@
       <sensor type="ray" name="ult7">
 	<pose>0 0 0 0 0 0</pose>
 	<update_rate>5</update_rate>
-	<visualize>true</visualize>
+	<visualize>false</visualize>
 	<ray>
           <scan>
             <horizontal>
@@ -722,7 +722,7 @@
       <sensor type="ray" name="ult8">
 	<pose>0 0 0 0 0 0</pose>
 	<update_rate>5</update_rate>
-	<visualize>true</visualize>
+	<visualize>false</visualize>
 	<ray>
           <scan>
             <horizontal>
@@ -755,7 +755,7 @@
       <sensor type="ray" name="ult9">
 	<pose>0 0 0 0 0 0</pose>
 	<update_rate>5</update_rate>
-	<visualize>true</visualize>
+	<visualize>false</visualize>
 	<ray>
           <scan>
             <horizontal>
@@ -787,7 +787,7 @@
       <sensor type="ray" name="ult10">
 	<pose>0 0 0 0 0 0</pose>
 	<update_rate>5</update_rate>
-	<visualize>true</visualize>
+	<visualize>false</visualize>
 	<ray>
           <scan>
             <horizontal>
@@ -820,7 +820,7 @@
       <sensor type="ray" name="ult11">
 	<pose>0 0 0 0 0 0</pose>
 	<update_rate>5</update_rate>
-	<visualize>true</visualize>
+	<visualize>false</visualize>
 	<ray>
           <scan>
             <horizontal>
@@ -852,7 +852,7 @@
       <sensor type="ray" name="ult12">
 	<pose>0 0 0 0 0 0</pose>
 	<update_rate>5</update_rate>
-	<visualize>true</visualize>
+	<visualize>false</visualize>
 	<ray>
           <scan>
             <horizontal>
@@ -914,34 +914,28 @@
     
 <!-- SENSOR -->
 <gazebo reference="kinect_link">
-    <sensor type="depth" name="openni_camera_camera">       
-        <always_on>1</always_on>
-        <visualize>true</visualize>             
+    <sensor type="camera" name="openni_camera_rgb">       
+        <always_on>true</always_on>
+        <visualize>false</visualize>             
         <camera>
             <horizontal_fov>1.047</horizontal_fov>  
             <image>
-                <width>160</width>
-                <height>120</height>
+                <width>640</width>
+                <height>480</height>
                 <format>R8G8B8</format>
             </image>
-            <depth_camera>
-
-            </depth_camera>
             <clip>
-                <near>0.1</near>
-                <far>100</far>
+                <near>0.02</near>
+                <far>300</far>
             </clip>
         </camera>
-        <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
             <alwaysOn>true</alwaysOn>
                 <updateRate>2.0</updateRate>
                 <cameraName>camera</cameraName>
                 <frameName>kinect_dummy</frameName>                   
                 <imageTopicName>rgb/image_raw</imageTopicName>
-                <depthImageTopicName>depth/image_raw</depthImageTopicName>
-                <pointCloudTopicName>depth/points</pointCloudTopicName>
                 <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>              
-                <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>            
                 <pointCloudCutoff>0.4</pointCloudCutoff>                
                 <hackBaseline>0.07</hackBaseline>
                 <distortionK1>0.0</distortionK1>
@@ -958,9 +952,9 @@
 </gazebo>
 
 <gazebo reference="kinect_link2">
-  <sensor type="depth" name="openni_camera_camera">       
+  <sensor type="depth" name="openni_camera_depth">       
         <always_on>1</always_on>
-        <visualize>true</visualize>             
+        <visualize>false</visualize>             
         <camera>
             <horizontal_fov>1.047</horizontal_fov>  
             <image>
@@ -1000,6 +994,62 @@
             </plugin>
     </sensor>
 </gazebo>   
+
+<!-- Laser -->
+    <link name="scan_link">
+      		
+      <collision>
+        <origin xyz="0 0 0.0" rpy="0 0 0"/>
+        <geometry>
+		<box size ="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>  
+      
+    </link>  
+
+    <joint name="scan_joint" type="fixed">
+      <origin xyz="-0.47 -0.2 1.8" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="scan_link"/>	 
+      <axis xyz="0 0 1"/>    
+    </joint>       
+    
+    <gazebo reference="scan_link">
+      <material value="Gazebo/DarkGray"/>
+      <sensor type="ray" name="laser_scan">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>false</visualize>
+        <update_rate>40</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>720</samples>
+              <resolution>1</resolution>
+              <min_angle>-1.570796</min_angle>	<!-- -2.35619 -->
+              <max_angle>1.570796</max_angle>	<!--  2.35619 -->
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.10</min>
+            <max>30.0</max>
+            <resolution>0.03</resolution>
+          </range>
+          
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </ray>
+        
+        <plugin name="laser_scan_plugin" filename="libgazebo_ros_laser.so">
+            <topicName>laser</topicName>
+            <frameName>scan_link</frameName>
+            <tf_prefix>/</tf_prefix>
+        </plugin>
+      </sensor>
+    </gazebo>  
+
 
   
 <!-- Gazebo ROS Control Plugin -->
