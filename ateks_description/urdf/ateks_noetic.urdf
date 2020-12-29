@@ -46,7 +46,7 @@
   <!-- Caster Wheels -->
     <link name='left_caster_wheel'>
     	<collision>
-      	   <origin rpy="0 0 0" xyz="0.33884 -0.28539 0.075"/>
+      	   <origin rpy="0 0 0" xyz="0.33884 -0.27 0.075"/>
       	    <geometry>
       	        <sphere radius ="0.075"/>
       	    </geometry>
@@ -62,7 +62,7 @@
 
     <link name='right_caster_wheel'>
     	<collision>
-      	   <origin rpy="0 0 0" xyz="0.33884 0.28539 0.075"/>
+      	   <origin rpy="0 0 0" xyz="0.33884 0.27 0.075"/>
       	    <geometry>
       	        <sphere radius ="0.075"/>
       	    </geometry>
@@ -88,29 +88,6 @@
      
   <!-- Back Wheels -->
   
-    <link name='right_wheel'>
-    	<inertial>
-      	  <mass value="1.0"/>
-      	  <origin xyz="0.0 0.0 0.0"/>
-	  <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0" />
-    	</inertial>
-    
-    	<collision>
-      	   <origin rpy="1.57 0 0" xyz="0.0 0.0 0.0"/>
-      	    <geometry>
-      	        <cylinder radius="0.1925" length="0.05"/>
-      	    </geometry>
-    	</collision>   
-     </link>
-     
-     <joint name="right_wheel_joint" type="continuous">
-    	<axis xyz="0 1 0"/>
-    	<origin xyz="-0.31 0.355 0.1925" rpy="0 0 0"/>
-    	<parent link="base_link"/>
-    	<child link="right_wheel"/>
-	<dynamics damping="0.7"/>
-     </joint>
-     
     <link name='left_wheel'>
     	<inertial>
       	  <mass value="1.0"/>
@@ -121,17 +98,40 @@
     	<collision>
       	   <origin rpy="1.57 0 0" xyz="0.0 0.0 0.0"/>
       	    <geometry>
-      	        <cylinder radius="0.1925" length="0.05"/>
+      	        <cylinder radius="0.17" length="0.05"/>
       	    </geometry>
     	</collision>   
      </link>
      
      <joint name="left_wheel_joint" type="continuous">
     	<axis xyz="0 1 0"/>
-    	<origin xyz="-0.31 -0.355 0.1925" rpy="0 0 0"/>
+    	<origin xyz="-0.31 0.335 0.17" rpy="0 0 0"/>
     	<parent link="base_link"/>
     	<child link="left_wheel"/>
-	<dynamics damping="0.7"/>
+	<dynamics damping="0.5"/>
+     </joint>
+     
+    <link name='right_wheel'>
+    	<inertial>
+      	  <mass value="1.0"/>
+      	  <origin xyz="0.0 0.0 0.0"/>
+	  <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0" />
+    	</inertial>
+    
+    	<collision>
+      	   <origin rpy="1.57 0 0" xyz="0.0 0.0 0.0"/>
+      	    <geometry>
+      	        <cylinder radius="0.17" length="0.05"/>
+      	    </geometry>
+    	</collision>   
+     </link>
+     
+     <joint name="right_wheel_joint" type="continuous">
+    	<axis xyz="0 1 0"/>
+    	<origin xyz="-0.31 -0.335 0.17" rpy="0 0 0"/>
+    	<parent link="base_link"/>
+    	<child link="right_wheel"/>
+	<dynamics damping="0.5"/>
      </joint>
      
 
@@ -1025,8 +1025,8 @@
             <horizontal>
               <samples>720</samples>
               <resolution>1</resolution>
-              <min_angle>-1.570796</min_angle>	<!-- -2.35619 -->
-              <max_angle>1.570796</max_angle>	<!--  2.35619 -->
+              <min_angle>-3.14</min_angle>
+              <max_angle>3.14</max_angle>
             </horizontal>
           </scan>
           <range>
