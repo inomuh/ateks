@@ -28,6 +28,10 @@ Requirements:
         $ sudo apt install ros-noetic-joint-state-publisher-gui
         
 -------------------------------------------------------------------------------
+ATEKS ROS Wiki:
+--------------
+http://wiki.ros.org/Robots/ATEKS/
+
 Changelog:
 ----------
 Update v1.0 - 26.11.20
